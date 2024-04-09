@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".MainActivity">
+
+
+    <com.dark.canves.view.DrawingView
+        android:id="@+id/drawingView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white" />
+
+    <RelativeLayout
+        android:id="@+id/topPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/clear"
+            style="@style/Widget.Material3.Button.ElevatedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="8dp"
+            android:text="Clear" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/draw_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="12dp"
+            app:checkedButton="@id/free"
+            app:selectionRequired="true"
+            app:singleSelection="true"
+            tools:ignore="RelativeOverlap">
+
+            <Button
+                android:id="@+id/free"
+                style="@style/ToggleButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                app:icon="@drawable/free" />
+
+            <Button
+                android:id="@+id/box"
+                style="@style/ToggleButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                app:icon="@drawable/box" />
+
+            <Button
+                android:id="@+id/line"
+                style="@style/ToggleButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                app:icon="@drawable/line" />
+
+            <Button
+                android:id="@+id/circle"
+                style="@style/ToggleButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                app:icon="@drawable/circle" />
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/topPanel"
+        android:background="#1A1A1A" />
+
+
+</RelativeLayout>

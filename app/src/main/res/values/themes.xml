@@ -1,0 +1,31 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Base.Theme.Canves" parent="Theme.Material3.Light.NoActionBar">
+<!--        <item name="windowActionBar">false</item>-->
+<!--        <item name="android:windowNoTitle">true</item>-->
+<!--        <item name="android:windowFullscreen">true</item>-->
+<!--        <item name="android:windowTranslucentStatus">true</item>-->
+<!--        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>-->
+
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+
+    <style name="ToggleButtonStyle" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="iconPadding">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="cornerRadius">24dp</item>
+        <item name="strokeWidth">1.5dp</item>
+        <item name="iconTint">@color/check_btn</item>
+        <item name="strokeColor">@color/check_btn</item>
+    </style>
+
+
+    <style name="Theme.Canves" parent="Base.Theme.Canves" />
+</resources>
