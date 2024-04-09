@@ -16,6 +16,7 @@ You Guys Can Give Me Feature Suggestion in [Discussion](https://github.com/Siddh
 2. Add Box
 3. Free Sketch
 4. Add Circles ( It will Show The Runtime Radius Of Circle, As Shown In The ScreenShot )
-5. Ref Line ( Referance Line )  will help you to know the current pos of your touch {
+5. Ref Line ( Referance Line )  will help you to know the current pos of your touch
+   {
    It will show X & Y co-ordinates of your touch and if possible it will show the size of the circle, box, line
    }
