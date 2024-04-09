@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Canves</string>
+    <string name="clear">Clear</string>
+    <string name="ref_line">Ref Line</string>
 </resources>
