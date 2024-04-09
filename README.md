@@ -17,4 +17,4 @@ https://github.com/Siddhesh2377/Canves/assets/67579112/28fb2e92-bb0e-45d5-a376-d
 2. **Add Rectangles:** Draw boxes or rectangles to define specific areas.
 3. **Freehand Sketch:** Express your creativity with freehand drawing capabilities.
 4. **Insert Circles:** Instantly add circles with real-time radius measurement, as demonstrated in the screenshot.
-5. **Reference Lines:** Accurately track touch positions with reference lines displaying X & Y coordinates. Additionally, it provides dynamic size indication for circles, boxes, and lines.
+5. **Reference Lines:** (As Shown in The Video) Accurately track touch positions with reference lines displaying X & Y coordinates. Additionally, it provides dynamic size indication for circles, boxes, and lines.
