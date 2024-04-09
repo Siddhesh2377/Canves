@@ -7,12 +7,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.dark.canves.view.DrawingView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.google.android.material.materialswitch.MaterialSwitch;
 
 public class MainActivity extends AppCompatActivity {
 
     DrawingView drawingView;
     MaterialButton clear;
     MaterialButtonToggleGroup drawState;
+    MaterialSwitch ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
         drawingView = findViewById(R.id.drawingView);
         clear = findViewById(R.id.clear);
         drawState = findViewById(R.id.draw_state);
+        ref = findViewById(R.id.refBtn);
+
+        ref.setOnCheckedChangeListener((buttonView, isChecked) -> drawingView.isRef = isChecked);
 
         drawState.addOnButtonCheckedListener((materialButtonToggleGroup, i, b) -> {
             if (b) {

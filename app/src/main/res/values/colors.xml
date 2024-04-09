@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="un_check">#7B7B7B</color>
     <color name="check">#3F5FFF</color>
+    <color name="refColor">#FF5959</color>
 </resources>

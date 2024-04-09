@@ -13,24 +13,28 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+
+import com.dark.canves.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DrawingView extends View {
 
-    private final Paint paint, dottedPaint, grid, text;
+    private final Paint paint, dottedPaint, grid, text, refPaint;
     private final List<Path> paths;
     private final List<LineData> lines;
     private final List<LineData> circles;
     private final List<RectF> boxes;
+    public boolean isRef = true;
     private boolean drawBox = false;
     private boolean drawFree = true;
     private boolean drawLine = false;
     private boolean drawCircle = false;
     private boolean isDrawing = false;
     private Path currentPath;
-    private LineData currentLine, currentCircle;
+    private LineData currentLine, currentCircle, refLine, refLine2;
     private RectF currentBox;
 
     public DrawingView(Context context, AttributeSet attrs) {
@@ -53,13 +57,18 @@ public class DrawingView extends View {
         dottedPaint.setStyle(Paint.Style.STROKE);
         dottedPaint.setPathEffect(new DashPathEffect(new float[]{10, 10}, 0)); // Set a dash effect
 
+        refPaint = new Paint();
+        refPaint.setColor(ContextCompat.getColor(getContext(), R.color.refColor));
+        refPaint.setStrokeWidth(5);
+        refPaint.setStyle(Paint.Style.STROKE);
+        refPaint.setPathEffect(new DashPathEffect(new float[]{15, 15}, 0)); // Set a dash effect
+
         grid = new Paint();
         grid.setColor(Color.LTGRAY);
         grid.setStrokeWidth(2);
         grid.setStyle(Paint.Style.FILL);
-        // grid.setPathEffect(new DashPathEffect(new float[]{10, 20}, 0)); // Set a dash effect
 
-        // Initialize lists to store paths and boxes
+
         paths = new ArrayList<>();
         boxes = new ArrayList<>();
         lines = new ArrayList<>();
@@ -70,41 +79,7 @@ public class DrawingView extends View {
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
-
-        int width = getWidth();
-        int height = getHeight();
-
-        int line = 10;
-
-        // Define the number of grid lines you want
-        int numHorizontalLines, numVerticalLines;
-
-        if (width < height) {
-            numHorizontalLines = (int) (4.5 * line);
-            numVerticalLines = 2 * line;
-        } else {
-            numHorizontalLines = 2 * line;
-            numVerticalLines = (int) (4.5 * line);
-        }
-
-
-        // Calculate the spacing between grid lines
-        float horizontalSpacing = (float) height / (numHorizontalLines + 1);
-        float verticalSpacing = (float) width / (numVerticalLines + 1);
-
-        // Draw horizontal grid lines
-        float y = horizontalSpacing;
-        for (int i = 0; i < numHorizontalLines; i++) {
-            canvas.drawLine(0, y, width, y, grid);
-            y += horizontalSpacing;
-        }
-
-        // Draw vertical grid lines
-        float x = verticalSpacing;
-        for (int i = 0; i < numVerticalLines; i++) {
-            canvas.drawLine(x, 0, x, height, grid);
-            x += verticalSpacing;
-        }
+        drawGrids(canvas);
 
         for (RectF box : boxes) {
             canvas.drawRect(box, paint);
@@ -123,32 +98,29 @@ public class DrawingView extends View {
         }
 
 
-        if (drawBox) {
-            if (currentBox != null) {
-                canvas.drawRect(currentBox, dottedPaint);
-            }
+        if (currentBox != null && drawBox) {
+            canvas.drawRect(currentBox, dottedPaint);
         }
 
-        if (drawFree) {
-            if (currentPath != null) {
-                canvas.drawPath(currentPath, dottedPaint);
-            }
+        if (currentPath != null && drawFree) {
+            canvas.drawPath(currentPath, dottedPaint);
         }
 
-        if (drawLine) {
-            if (currentPath != null) {
-                canvas.drawPath(currentPath, dottedPaint);
-            }
+        if (currentPath != null && drawLine) {
+            canvas.drawPath(currentPath, dottedPaint);
         }
 
-        if (drawCircle) {
-            if (currentPath != null) {
-                if (isDrawing) {
-                    canvas.drawLine(currentLine.sX, currentLine.sY, currentLine.eX, currentLine.eY, paint);
-                    canvas.drawText("Radius: " + currentCircle.eX, currentLine.eX, currentLine.eY, text);
-                }
-                canvas.drawCircle(currentCircle.sX, currentCircle.sY, currentCircle.eX, dottedPaint);
+        if (currentPath != null && drawCircle) {
+            if (isDrawing) {
+                canvas.drawLine(currentLine.sX, currentLine.sY, currentLine.eX, currentLine.eY, paint);
+                canvas.drawText("Radius: " + currentCircle.eX, currentLine.eX, currentLine.eY, text);
             }
+            canvas.drawCircle(currentCircle.sX, currentCircle.sY, currentCircle.eX, dottedPaint);
+        }
+
+        if (isDrawing && isRef) {
+            canvas.drawLine(refLine.sX, refLine.sY, refLine.eX, refLine.eY, refPaint); //Vertical Reference Line
+            canvas.drawLine(refLine2.sX, refLine2.sY, refLine2.eX, refLine2.eY, refPaint); //Horizontal Reference Line
         }
 
     }
@@ -166,6 +138,8 @@ public class DrawingView extends View {
                 currentPath = new Path();
                 currentLine = new LineData(x, y, x, y);
                 currentCircle = new LineData(x, y, 0, 0);
+                refLine = new LineData(x, 0, x, y); // Vertical Reference Line
+                refLine2 = new LineData(0, y, x, y); // Horizontal Reference Line
                 currentBox = new RectF(x, y, x, y);
                 currentPath.moveTo(x, y);
                 return true;
@@ -177,6 +151,14 @@ public class DrawingView extends View {
                 currentBox.bottom = y;
                 currentLine.eX = x;
                 currentLine.eY = y;
+
+                refLine.sX = x;
+                refLine.eX = x;
+                refLine.eY = y;
+
+                refLine2.sY = y;
+                refLine2.eX = x;
+                refLine2.eY = y;
 
                 // Calculate the radius for the circle
                 float dx = currentCircle.sX - x;
@@ -197,6 +179,7 @@ public class DrawingView extends View {
                 currentPath = null;
                 currentBox = null;
                 currentCircle = null;
+                refLine = null;
                 invalidate();
                 break;
             default:
@@ -206,8 +189,41 @@ public class DrawingView extends View {
         return true;
     }
 
+    private void drawGrids(Canvas canvas) {
+        int width = getWidth();
+        int height = getHeight();
 
-    // Method to clear the drawing
+        // Define the number of grid lines you want
+        int numHorizontalLines, numVerticalLines;
+
+        if (width < height) {
+            numHorizontalLines = (int) (4.5 * 10);
+            numVerticalLines = 2 * 10;
+        } else {
+            numHorizontalLines = 2 * 10;
+            numVerticalLines = (int) (4.5 * 10);
+        }
+
+
+        // Calculate the spacing between grid lines
+        float horizontalSpacing = (float) height / (numHorizontalLines + 1);
+        float verticalSpacing = (float) width / (numVerticalLines + 1);
+
+        // Draw horizontal grid lines
+        float y = horizontalSpacing;
+        for (int i = 0; i < numHorizontalLines; i++) {
+            canvas.drawLine(0, y, width, y, grid);
+            y += horizontalSpacing;
+        }
+
+        // Draw vertical grid lines
+        float x = verticalSpacing;
+        for (int i = 0; i < numVerticalLines; i++) {
+            canvas.drawLine(x, 0, x, height, grid);
+            x += verticalSpacing;
+        }
+    }
+
     public void clearDrawing() {
         paths.clear();
         boxes.clear();
@@ -243,7 +259,6 @@ public class DrawingView extends View {
         this.drawLine = false;
         this.drawCircle = true;
     }
-
 }
 
 class LineData {
