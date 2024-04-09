@@ -25,21 +25,14 @@ public class MainActivity extends AppCompatActivity {
 
         drawState.addOnButtonCheckedListener((materialButtonToggleGroup, i, b) -> {
             if (b) {
-                if (i == R.id.free) {
-                    drawingView.DrawFree();
-                }
+                if (i == R.id.free) drawingView.DrawFree();
 
-                if (i == R.id.box) {
-                    drawingView.DrawBox();
-                }
+                if (i == R.id.box) drawingView.DrawBox();
 
-                if (i == R.id.line) {
-                    drawingView.DrawLine();
-                }
+                if (i == R.id.line) drawingView.DrawLine();
 
-                if (i == R.id.circle) {
-                    drawingView.DrawCircle();
-                }
+                if (i == R.id.circle) drawingView.DrawCircle();
+
             }
         });
 
