@@ -8,8 +8,11 @@ You Guys Can Give Me Feature Suggestions in [Discussion](https://github.com/Sidd
 
 <div style="display:flex;">
   <img src="https://github.com/Siddhesh2377/Canves/assets/67579112/51d3452d-6603-4d8b-bbe8-cc39520e90d4" alt="Screenshot" width="400" style="margin-right: 10px;">
-  https://github.com/Siddhesh2377/Canves/assets/67579112/28fb2e92-bb0e-45d5-a376-dcf9e39ab5f1
 </div>
+
+<video width="320" height="240" controls>
+  <source src="https://github.com/Siddhesh2377/Canves/assets/67579112/28fb2e92-bb0e-45d5-a376-dcf9e39ab5f1" type="video/mp4">
+</video>
 
 >Features
 1. **Draw Lines:** Easily create lines of different lengths and angles.
