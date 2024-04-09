@@ -153,6 +153,7 @@ public class DrawingView extends View {
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();
@@ -180,8 +181,9 @@ public class DrawingView extends View {
                 // Calculate the radius for the circle
                 float dx = currentCircle.sX - x;
                 float dy = currentCircle.sY - y;
-                currentCircle.eX = (float) Math.sqrt(dx * dx + dy * dy); // Radius
-                currentCircle.eY = (float) Math.sqrt(dx * dx + dy * dy); // Radius
+                double sqrt = Math.sqrt(dx * dx + dy * dy);
+                currentCircle.eX = (float) sqrt; // Radius
+                currentCircle.eY = (float) sqrt; // Radius
 
                 invalidate();
                 break;

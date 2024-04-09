@@ -1,7 +1,6 @@
 package com.dark.canves;
 
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,20 +24,20 @@ public class MainActivity extends AppCompatActivity {
         drawState = findViewById(R.id.draw_state);
 
         drawState.addOnButtonCheckedListener((materialButtonToggleGroup, i, b) -> {
-            if (b){
-                if (i == R.id.free){
+            if (b) {
+                if (i == R.id.free) {
                     drawingView.DrawFree();
                 }
 
-                if (i == R.id.box){
+                if (i == R.id.box) {
                     drawingView.DrawBox();
                 }
 
-                if (i == R.id.line){
+                if (i == R.id.line) {
                     drawingView.DrawLine();
                 }
 
-                if (i == R.id.circle){
+                if (i == R.id.circle) {
                     drawingView.DrawCircle();
                 }
             }
