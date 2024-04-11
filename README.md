@@ -7,8 +7,8 @@ You Guys Can Give Me Feature Suggestions in [Discussion](https://github.com/Sidd
 >Here Are Some Proof
 
 <div style="display:flex;">
-  <img src="https://github.com/Siddhesh2377/Canves/assets/67579112/51d3452d-6603-4d8b-bbe8-cc39520e90d4" alt="Screenshot" width="400" style="margin-right: 10px;">
-  <img src="https://github.com/Siddhesh2377/Canves/assets/67579112/0a22ef25-ca0a-40ee-bd64-5b0eb427ba9c" alt="Screenshot" width="400" style="margin-right: 10px;">
+  <img src="https://github.com/Siddhesh2377/Canves/assets/67579112/51d3452d-6603-4d8b-bbe8-cc39520e90d4" alt="Screenshot" width="300" style="margin-right: 10px; border-radius: 10px;">
+  <img src="https://github.com/Siddhesh2377/Canves/assets/67579112/0a22ef25-ca0a-40ee-bd64-5b0eb427ba9c" alt="Screenshot" width="300" style="margin-right: 10px; border-radius: 10px;">
 </div>
 
 >Features
@@ -17,4 +17,3 @@ You Guys Can Give Me Feature Suggestions in [Discussion](https://github.com/Sidd
 3. **Freehand Sketch:** Express your creativity with freehand drawing capabilities.
 4. **Insert Circles:** Instantly add circles with real-time radius measurement, as demonstrated in the screenshot.
 5. **Reference Lines:** (As Shown in The ScreenShot) Accurately track touch positions with reference lines displaying X & Y coordinates. Additionally, it provides dynamic size indication for circles, boxes, and lines.
-
