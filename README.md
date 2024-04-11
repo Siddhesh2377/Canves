@@ -18,3 +18,4 @@ You Guys Can Give Me Feature Suggestions in [Discussion](https://github.com/Sidd
 3. **Freehand Sketch:** Express your creativity with freehand drawing capabilities.
 4. **Insert Circles:** Instantly add circles with real-time radius measurement, as demonstrated in the screenshot.
 5. **Reference Lines:** (As Shown in The ScreenShot) Accurately track touch positions with reference lines displaying X & Y coordinates. Additionally, it provides dynamic size indication for circles, boxes, and lines.
+6. **Frame View** (In 3rd ScreenShot) In Frame View You can Add Multiple View/Shapes and can place them anyware in the frame.
