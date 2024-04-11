@@ -9,6 +9,7 @@ You Guys Can Give Me Feature Suggestions in [Discussion](https://github.com/Sidd
 <div style="display:flex;">
   <img src="https://github.com/Siddhesh2377/Canves/assets/67579112/51d3452d-6603-4d8b-bbe8-cc39520e90d4" alt="Screenshot" width="300" style="margin-right: 20px; border-radius: 30px;">
   <img src="https://github.com/Siddhesh2377/Canves/assets/67579112/0a22ef25-ca0a-40ee-bd64-5b0eb427ba9c" alt="Screenshot" width="300" style="margin-right: 20px; border-radius: 30px;">
+   <img src="https://github.com/Siddhesh2377/Canves/assets/67579112/034fdf24-318c-4730-b330-1f44203df2a5" alt="Screenshot" width="300" style="margin-right: 20px; border-radius: 30px;">
 </div>
 
 >Features
