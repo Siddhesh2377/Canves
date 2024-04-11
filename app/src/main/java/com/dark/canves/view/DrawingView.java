@@ -11,21 +11,25 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.dark.canves.R;
+import com.dark.canves.interfaces.DrawingEvents;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DrawingView extends View {
+public class DrawingView extends RelativeLayout {
 
     private final Paint paint, dottedPaint, grid, text, refPaint;
     private final List<Path> paths;
     private final List<LineData> lines;
     private final List<LineData> circles;
+    private final List<View> views;
     private final List<RectF> boxes;
     public boolean isRef = true;
     private boolean drawBox = false;
@@ -33,6 +37,7 @@ public class DrawingView extends View {
     private boolean drawLine = false;
     private boolean drawCircle = false;
     private boolean isDrawing = false;
+    private boolean drawFrame = false;
     private Path currentPath;
     private LineData currentLine, currentCircle, refLine, refLine2;
     private RectF currentBox;
@@ -49,6 +54,7 @@ public class DrawingView extends View {
         text = new Paint();
         text.setColor(Color.BLACK);
         text.setStyle(Paint.Style.FILL);
+
         text.setTextSize(28);
 
         dottedPaint = new Paint();
@@ -73,6 +79,8 @@ public class DrawingView extends View {
         boxes = new ArrayList<>();
         lines = new ArrayList<>();
         circles = new ArrayList<>();
+        views = new ArrayList<>();
+
     }
 
     @SuppressLint("DefaultLocale")
@@ -97,7 +105,6 @@ public class DrawingView extends View {
             canvas.drawCircle(path.sX, path.sY, path.eX, paint);
         }
 
-
         if (currentBox != null && drawBox) {
             canvas.drawRect(currentBox, dottedPaint);
         }
@@ -113,7 +120,7 @@ public class DrawingView extends View {
         if (currentPath != null && drawCircle) {
             if (isDrawing) {
                 canvas.drawLine(currentLine.sX, currentLine.sY, currentLine.eX, currentLine.eY, paint);
-                canvas.drawText("Radius: " + currentCircle.eX, currentLine.eX, currentLine.eY, text);
+                canvas.drawText("Radius: " + currentCircle.eX, currentCircle.sX, currentCircle.sY, text);
             }
             canvas.drawCircle(currentCircle.sX, currentCircle.sY, currentCircle.eX, dottedPaint);
         }
@@ -121,6 +128,7 @@ public class DrawingView extends View {
         if (isDrawing && isRef) {
             canvas.drawLine(refLine.sX, refLine.sY, refLine.eX, refLine.eY, refPaint); //Vertical Reference Line
             canvas.drawLine(refLine2.sX, refLine2.sY, refLine2.eX, refLine2.eY, refPaint); //Horizontal Reference Line
+            canvas.drawText("X : " + currentLine.eX, currentLine.eX, currentLine.eY, text);
         }
 
     }
@@ -131,10 +139,12 @@ public class DrawingView extends View {
         float x = event.getX();
         float y = event.getY();
 
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 // Start a new path or box
                 isDrawing = true;
+                if (drawFrame) addFrame((int) x, (int) y);
                 currentPath = new Path();
                 currentLine = new LineData(x, y, x, y);
                 currentCircle = new LineData(x, y, 0, 0);
@@ -142,9 +152,11 @@ public class DrawingView extends View {
                 refLine2 = new LineData(0, y, x, y); // Horizontal Reference Line
                 currentBox = new RectF(x, y, x, y);
                 currentPath.moveTo(x, y);
+                invalidate();
                 return true;
             case MotionEvent.ACTION_MOVE:
                 // Update the path or box
+
                 currentPath.lineTo(x, y);
                 isDrawing = true;
                 currentBox.right = x;
@@ -159,7 +171,6 @@ public class DrawingView extends View {
                 refLine2.sY = y;
                 refLine2.eX = x;
                 refLine2.eY = y;
-
                 // Calculate the radius for the circle
                 float dx = currentCircle.sX - x;
                 float dy = currentCircle.sY - y;
@@ -167,20 +178,23 @@ public class DrawingView extends View {
                 currentCircle.eX = (float) sqrt; // Radius
                 currentCircle.eY = (float) sqrt; // Radius
 
+
                 invalidate();
                 break;
             case MotionEvent.ACTION_UP:
                 // Save the drawn path or box
                 isDrawing = false;
+
                 if (drawFree) paths.add(currentPath);
                 if (drawBox) boxes.add(currentBox);
                 if (drawLine) lines.add(currentLine);
                 if (drawCircle) circles.add(currentCircle);
+
+                invalidate();
                 currentPath = null;
                 currentBox = null;
                 currentCircle = null;
                 refLine = null;
-                invalidate();
                 break;
             default:
                 return false;
@@ -229,6 +243,8 @@ public class DrawingView extends View {
         boxes.clear();
         lines.clear();
         circles.clear();
+        views.clear();
+        removeAllViews();
         invalidate();
     }
 
@@ -237,6 +253,7 @@ public class DrawingView extends View {
         this.drawFree = false;
         this.drawLine = false;
         this.drawCircle = false;
+        this.drawFrame = false;
     }
 
     public void DrawFree() {
@@ -244,6 +261,7 @@ public class DrawingView extends View {
         this.drawFree = true;
         this.drawLine = false;
         this.drawCircle = false;
+        this.drawFrame = false;
     }
 
     public void DrawLine() {
@@ -251,6 +269,7 @@ public class DrawingView extends View {
         this.drawFree = false;
         this.drawLine = true;
         this.drawCircle = false;
+        this.drawFrame = false;
     }
 
     public void DrawCircle() {
@@ -258,7 +277,35 @@ public class DrawingView extends View {
         this.drawFree = false;
         this.drawLine = false;
         this.drawCircle = true;
+        this.drawFrame = false;
     }
+
+    public void DrawFrame() {
+        this.drawBox = false;
+        this.drawFree = false;
+        this.drawLine = false;
+        this.drawCircle = false;
+        this.drawFrame = true;
+    }
+
+
+    @SuppressLint("ClickableViewAccessibility")
+    public void addFrame(int x, int y) {
+        Frame frame = new Frame(getContext());
+        frame.setWidthHeight(200, 200);
+        frame.setX(x);
+        frame.setY(y);
+        frame.setBackground(2, Color.BLACK, 12, Color.YELLOW);
+        frame.setTag("Frame1");
+        frame.setOnTouchListener(new DragListener());
+        if (getContext() instanceof DrawingEvents) {
+            ((DrawingEvents) getContext()).onFrameAdded();
+        }
+        addView(frame);
+        views.add(frame);
+        invalidate();
+    }
+
 }
 
 class LineData {
@@ -272,3 +319,61 @@ class LineData {
         this.sY = sY;
     }
 }
+
+class DragListener implements View.OnTouchListener {
+
+    private static final int CORNER_THRESHOLD = 100;
+    private float previousX, previousY;
+
+    @SuppressLint("ClickableViewAccessibility")
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                // Save the initial touch position
+                previousX = event.getRawX();
+                previousY = event.getRawY();
+                v.setElevation(8);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                // Calculate the distance moved
+                float dx = event.getRawX() - previousX;
+                float dy = event.getRawY() - previousY;
+
+                if (event.getX() > v.getWidth() - CORNER_THRESHOLD && event.getY() > v.getHeight() - CORNER_THRESHOLD) {
+                    // Increase the width and height
+                    ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
+                    layoutParams.width += (int) dx;
+                    layoutParams.height += (int) dy;
+                    v.setLayoutParams(layoutParams);
+                } else {
+                    if (event.getX() > v.getWidth() - CORNER_THRESHOLD) {
+                        ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
+                        layoutParams.width += (int) dx;
+                        v.setLayoutParams(layoutParams);
+                    } else {
+                        if (event.getY() > v.getHeight() - CORNER_THRESHOLD) {
+                            ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
+                            layoutParams.height += (int) dy;
+                            v.setLayoutParams(layoutParams);
+                        } else {
+                            v.setX(v.getX() + dx);
+                            v.setY(v.getY() + dy);
+                        }
+                    }
+                }
+
+                // Update the previous touch position
+                previousX = event.getRawX();
+                previousY = event.getRawY();
+                v.setElevation(16);
+                break;
+            case MotionEvent.ACTION_UP:
+                v.setElevation(0);
+                break;
+        }
+        // Return true to indicate that the touch event has been consumed
+        return true;
+    }
+}
+

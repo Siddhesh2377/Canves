@@ -4,12 +4,13 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.dark.canves.interfaces.DrawingEvents;
 import com.dark.canves.view.DrawingView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.materialswitch.MaterialSwitch;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DrawingEvents {
 
     DrawingView drawingView;
     MaterialButton clear;
@@ -38,11 +39,19 @@ public class MainActivity extends AppCompatActivity {
 
                 if (i == R.id.circle) drawingView.DrawCircle();
 
+                if (i == R.id.frame) drawingView.DrawFrame();
+
             }
         });
 
         clear.setOnClickListener(v -> drawingView.clearDrawing());
 
 
+    }
+
+    @Override
+    public void onFrameAdded() {
+        drawState.check(R.id.free);
+        drawingView.DrawFree();
     }
 }
