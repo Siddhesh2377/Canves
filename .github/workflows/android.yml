@@ -5,13 +5,10 @@ env:
   main_project_module: app
 
 on:
-
   push:
-    branches:
-      - 'release/**'
-
-  # Allows you to run this workflow manually from the Actions tab
- # workflow_dispatch:
+    branches-ignore:
+      - '*'
+  pull_request:
 
 jobs:
   build:
