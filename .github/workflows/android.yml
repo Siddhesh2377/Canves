@@ -66,3 +66,5 @@ jobs:
         with:
           name: ${{ env.date_today }} - ${{ env.repository_name }} - AAB release 
           path: ${{ env.main_project_module }}/build/outputs/bundle/release/
+
+
